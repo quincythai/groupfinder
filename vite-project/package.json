@@ -32,11 +32,14 @@
     "postcss": "^8.4.31",
     "prettier": "3.1.0",
     "tailwindcss": "^3.3.5",
-    "vite": "^4.4.5"
+    "vite": "^4.5.0"
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "vite.config.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "lint": "eslint .",
+  "lint:fix": "eslint --fix",
+  "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
 }
