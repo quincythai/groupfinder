@@ -1,5 +1,5 @@
 import React from 'react'
-import { Heading, chakra } from '@chakra-ui/react'
+import { chakra } from '@chakra-ui/react'
 
 const NormalText = chakra('span', {
   baseStyle: { fontWeight: 'normal' },

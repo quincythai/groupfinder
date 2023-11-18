@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Home from './pages/Home'
 
 function App() {
   return (
@@ -14,7 +15,6 @@ function App() {
   )
 }
 
-const Home = () => <h2>Home page</h2>
 const About = () => <h2>About page</h2>
 
 export default App
