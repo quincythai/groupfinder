@@ -1,14 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className='flex place-content-between'>
-      <div className=''>
-        GroupFinder
-      </div>
+    <nav className="bg-slate-800">
+      <div className="">heloo</div>
       <div>
-        <ul className='flex'>
+        <ul className="flex">
           <li>
             <Link to="/">Home</Link>
           </li>
