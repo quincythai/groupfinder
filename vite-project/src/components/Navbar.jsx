@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-between items-center bg-slate-800 p-6">
-      <div className="text-white text-2xl">
-        <span className="font-bold">Group</span>Finder
+    <nav>
+      <div>
+        <span>
+          GroupFinder
+        </span>
       </div>
       <div>
-        <ul className="flex space-x-4">
+        <ul>
           <li>
             <Link to="/" className="text-white">
               Home
