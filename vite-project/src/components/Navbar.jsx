@@ -1,6 +1,13 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Box, Flex, Link, Heading, Button } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Link,
+  Heading,
+  Button,
+  textDecoration,
+} from '@chakra-ui/react'
 import Logo from './Logo'
 
 import { useTheme } from '@chakra-ui/react'
@@ -12,9 +19,11 @@ const Navbar = () => {
   return (
     <Box as='nav' p={4} bg={primaryColor} color='white'>
       <Flex justify='space-between' align='center'>
-        <Heading as='span' size='md' style={{ fontSize: '30px' }}>
-          <Logo />
-        </Heading>
+        <Link to='/' _hover={{ textDecoration: 'none' }}>
+          <Heading as='span' size='md' style={{ fontSize: '30px' }}>
+            <Logo />
+          </Heading>
+        </Link>
         <Flex gap='20px'>
           {/* TODO: fix text only turning black when hover over link and not button */}
           <Button variant='ghost'>

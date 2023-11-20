@@ -24,6 +24,14 @@ function App() {
             </Layout>
           }
         ></Route>
+        <Route
+          path='/classes'
+          element={
+            <Layout>
+              <About />
+            </Layout>
+          }
+        ></Route>
       </Routes>
     </>
   )
