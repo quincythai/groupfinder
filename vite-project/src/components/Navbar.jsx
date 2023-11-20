@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Box, Flex, Link, Heading } from '@chakra-ui/react'
+import { Box, Flex, Link, Heading, Button } from '@chakra-ui/react'
 import Logo from './Logo'
 
 import { useTheme } from '@chakra-ui/react'
@@ -15,13 +15,23 @@ const Navbar = () => {
         <Heading as='span' size='md' style={{ fontSize: '30px' }}>
           <Logo />
         </Heading>
-        <Flex>
-          <Link as={RouterLink} to='/' mr={4} _hover={{ textDecor: 'none' }}>
-            Home
-          </Link>
-          <Link as={RouterLink} to='/about' _hover={{ textDecor: 'none' }}>
-            About
-          </Link>
+        <Flex gap='20px'>
+          {/* TODO: fix text only turning black when hover over link and not button */}
+          <Button variant='ghost'>
+            <Link
+              as={RouterLink}
+              to='/'
+              _hover={{ textDecor: 'none', color: 'black' }}
+              color='white'
+            >
+              Sign Up
+            </Link>
+          </Button>
+          <Button variant='solid'>
+            <Link as={RouterLink} to='/about' _hover={{ textDecor: 'none' }}>
+              About
+            </Link>
+          </Button>
         </Flex>
       </Flex>
     </Box>
