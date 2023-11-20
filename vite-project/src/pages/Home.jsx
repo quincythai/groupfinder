@@ -1,11 +1,12 @@
-import { Box, Button, Heading, Text } from '@chakra-ui/react'
+import { Box, Button, Heading, Text, flexbox } from '@chakra-ui/react'
 import Logo from '../components/Logo'
+import { Image } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
 const Home = () => {
   return (
     <Box
-      maxW='32rem'
+      maxW='70%'
       mx='auto'
       my='auto'
       textAlign='center'
@@ -14,13 +15,31 @@ const Home = () => {
       flexDirection='column'
       justifyContent='center' // Center the content vertically
     >
-      <Heading mb={4}>
-        <Logo />
-      </Heading>
-      <Text fontSize='xl'>Want to find a group for your school projects?</Text>
-      <Button size='lg' colorScheme='green' mt='24px'>
-        Find a Group
-      </Button>
+      <Box display='flex' alignItems='center' justifyContent='space-between'>
+        <Box display='flex' flexDirection='column' maxWidth='60%'>
+          <Heading mb='4' fontSize='80px'>
+            <Logo />
+          </Heading>
+          <Text fontSize='22px' color={'gray'}>
+            Want to find a group for your school projects?
+          </Text>
+          <Button
+            size='lg'
+            colorScheme='green'
+            width='60%'
+            mt='8'
+            alignSelf='center'
+          >
+            Find a Group
+          </Button>
+        </Box>
+        <Image
+          src='group-svgrepo-com.svg'
+          objectFit='cover'
+          alt='Group of people clipart'
+          boxSize='250px'
+        ></Image>
+      </Box>
     </Box>
   )
 }
