@@ -25,15 +25,17 @@ const Home = () => {
           <Text fontSize='22px' color={'gray'}>
             Want to find a group for your school projects?
           </Text>
-          <Button
-            size='lg'
-            colorScheme='green'
-            width='60%'
-            mt='8'
-            alignSelf='center'
-          >
-            Find a Group
-          </Button>
+          <Link to='/classes'>
+            <Button
+              size='lg'
+              colorScheme='green'
+              width='60%'
+              mt='8'
+              alignSelf='center'
+            >
+              Find a Group
+            </Button>
+          </Link>
         </Box>
         <Image
           src='group-svgrepo-com.svg'

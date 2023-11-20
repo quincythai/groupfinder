@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <Box as='nav' p={4} bg={primaryColor} color='white'>
       <Flex justify='space-between' align='center'>
-        <Link to='/' _hover={{ textDecoration: 'none' }}>
+        <Link as={RouterLink} to='/' _hover={{ textDecoration: 'none' }}>
           <Heading as='span' size='md' style={{ fontSize: '30px' }}>
             <Logo />
           </Heading>

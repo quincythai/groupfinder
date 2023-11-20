@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
+import Classes from './pages/Classes'
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           path='/classes'
           element={
             <Layout>
-              <About />
+              <Classes />
             </Layout>
           }
         ></Route>
