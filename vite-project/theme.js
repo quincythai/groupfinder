@@ -23,6 +23,10 @@ const theme = extendTheme({
       800: '#2a4365',
       900: '#1a365d',
     },
+
+    // Our colors from Figma
+    gold: 'FFC00E',
+    cyan: '56ACE0',
     // ...
   },
 })
