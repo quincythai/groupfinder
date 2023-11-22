@@ -25,7 +25,7 @@ const Home = () => {
           <Text fontSize='22px' color={'gray'}>
             Want to find a group for your school projects?
           </Text>
-          <Link to='/classes'>
+          <Link to='/courses'>
             <Button
               size='lg'
               colorScheme='green'
