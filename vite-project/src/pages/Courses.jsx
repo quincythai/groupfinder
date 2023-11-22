@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Flex,
   Heading,
@@ -7,8 +6,6 @@ import {
   Image,
   Stack,
   CardBody,
-  CardFooter,
-  Button,
   Text,
 } from '@chakra-ui/react'
 
