@@ -37,7 +37,7 @@ const FaqAccordion = () => {
         <AccordionItem key={tab.title}>
           <h2>
             <AccordionButton>
-              <Box as='span' flex='1' textAlign='left'>
+              <Box as='span' flex='1' textAlign='left' fontWeight='bold'>
                 {tab.title}
               </Box>
               <AccordionIcon />
