@@ -10,12 +10,18 @@ import {
   Divider,
 } from '@chakra-ui/react'
 
+import GroupCardModal from './GroupCardModal'
+import React from 'react'
+import { useDisclosure } from '@chakra-ui/react'
+
 // TODO:
 // Figure out how to truncate descriptions that are too long
 // Center image
 // Have all same image sizes
 
 const GroupCard = ({ image, heading, text, numPeopleNeeded }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <Card minW='xs' maxW='xs'>
       <CardBody>
@@ -40,9 +46,10 @@ const GroupCard = ({ image, heading, text, numPeopleNeeded }) => {
         <Text alignSelf='end' color='blue.600' fontSize='2xl'>
           {numPeopleNeeded}
         </Text>
-        <Button variant='solid' colorScheme='blue'>
+        <Button variant='solid' colorScheme='blue' onClick={onOpen}>
           View Info
         </Button>
+        <GroupCardModal isOpen={isOpen} onClose={onClose} />
       </CardFooter>
     </Card>
   )
