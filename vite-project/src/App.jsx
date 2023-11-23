@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Courses from './pages/Courses'
 import CoursePage from './pages/CoursePage'
 import { Box, Flex } from '@chakra-ui/react'
+import Contact from './pages/Contact'
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
           element={
             <Layout>
               <CoursePage />
+            </Layout>
+          }
+        ></Route>
+        <Route
+          path='/contact'
+          element={
+            <Layout>
+              <Contact />
             </Layout>
           }
         ></Route>
