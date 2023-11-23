@@ -6,6 +6,8 @@ import Courses from './pages/Courses'
 import CoursePage from './pages/CoursePage'
 import { Box, Flex } from '@chakra-ui/react'
 import Contact from './pages/Contact'
+import About from './pages/About'
+import Faq from './pages/Faq'
 
 function App() {
   return (
@@ -51,6 +53,14 @@ function App() {
             </Layout>
           }
         ></Route>
+        <Route
+          path='/faq'
+          element={
+            <Layout>
+              <Faq />
+            </Layout>
+          }
+        ></Route>
       </Routes>
     </>
   )
@@ -66,7 +76,5 @@ const Layout = ({ children }) => (
     <Footer />
   </Flex>
 )
-
-const About = () => <h2>About page</h2>
 
 export default App
