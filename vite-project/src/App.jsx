@@ -4,7 +4,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import Courses from './pages/Courses'
 import CoursePage from './pages/CoursePage'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 
 function App() {
   return (
@@ -51,11 +51,11 @@ function App() {
 // TODO: figure out how to have minheight stuff
 
 const Layout = ({ children }) => (
-  <Box>
+  <Flex flexDirection='column' minH='100vh'>
     <Navbar />
-    {children}
+    <Box flex='1'>{children}</Box>
     <Footer />
-  </Box>
+  </Flex>
 )
 
 const About = () => <h2>About page</h2>

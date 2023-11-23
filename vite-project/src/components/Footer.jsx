@@ -1,5 +1,4 @@
-import React from 'react'
-import { Box, Heading, List } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { useTheme } from '@chakra-ui/react'
 import FooterBox from './FooterBox'
 

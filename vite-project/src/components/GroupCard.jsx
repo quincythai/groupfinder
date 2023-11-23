@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 
 import GroupCardModal from './GroupCardModal'
-import React from 'react'
 import { useDisclosure } from '@chakra-ui/react'
 
 // TODO:
