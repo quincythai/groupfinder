@@ -2,8 +2,8 @@ import { Box, Heading, List, ListItem, Link } from '@chakra-ui/react'
 
 const FooterBox = ({ title, links }) => {
   return (
-    <Box display='flex' flexDirection='column' width='100px'>
-      <Heading as='h2' fontSize='2xl' mb={4} color='white'>
+    <Box display='flex' flexDirection='column'>
+      <Heading as='h2' fontSize='xl' mb={4} color='white' whiteSpace='nowrap'>
         {title}
       </Heading>
       <List spacing={2}>

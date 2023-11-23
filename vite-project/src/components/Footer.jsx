@@ -6,17 +6,20 @@ const Footer = () => {
   const theme = useTheme()
   const primaryColor = theme.colors.blue[800]
 
-  const links = [
+  const supportLinks = [
     { label: 'Contact', href: '/contact' },
-    { label: 'About Us', href: '/about' },
+    { label: 'FAQ', href: '/faq' },
   ]
+
+  const aboutLinks = [{ label: 'About Us', href: '/about' }]
 
   return (
     <Box
       display='flex'
       justifyContent='center'
-      alignItems='center'
+      alignItems='flex-start'
       padding='20px'
+      paddingTop='50px'
       backgroundColor={primaryColor}
       width='100%'
       bottom='0'
@@ -24,9 +27,8 @@ const Footer = () => {
       height='200px'
       gap='100px'
     >
-      <FooterBox title='Support' links={links}></FooterBox>
-      <FooterBox title='Support' links={links}></FooterBox>
-      <FooterBox title='Support' links={links}></FooterBox>
+      <FooterBox title='Support' links={supportLinks}></FooterBox>
+      <FooterBox title='About Us' links={aboutLinks}></FooterBox>
     </Box>
   )
 }
