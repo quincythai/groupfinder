@@ -8,7 +8,6 @@ import {
   Heading,
   Button,
   Divider,
-  ButtonGroup,
 } from '@chakra-ui/react'
 
 // TODO:
@@ -29,21 +28,21 @@ const GroupCard = ({ image, heading, text, numPeopleNeeded }) => {
         <Stack mt='6' spacing='3'>
           <Heading size='md'>{heading}</Heading>
           <Text>{text}</Text>
-          <Text alignSelf='end' color='blue.600' fontSize='2xl'>
-            {numPeopleNeeded}
-          </Text>
         </Stack>
       </CardBody>
       <Divider />
-      <CardFooter display='flex' justifyContent='flex-end'>
-        <ButtonGroup spacing='2'>
-          <Button variant='solid' colorScheme='blue'>
-            View Info
-          </Button>
-          <Button variant='ghost' colorScheme='blue'>
-            Join
-          </Button>
-        </ButtonGroup>
+      <CardFooter
+        display='flex'
+        justifyContent='flex-end'
+        alignItems='center'
+        gap='20px'
+      >
+        <Text alignSelf='end' color='blue.600' fontSize='2xl'>
+          {numPeopleNeeded}
+        </Text>
+        <Button variant='solid' colorScheme='blue'>
+          View Info
+        </Button>
       </CardFooter>
     </Card>
   )
