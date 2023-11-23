@@ -16,23 +16,21 @@ const Navbar = () => {
             <Logo />
           </Heading>
         </Link>
-        <Flex gap='20px'>
-          {/* TODO: fix text only turning black when hover over link and not button */}
-          <Button variant='ghost'>
-            <Link
-              as={RouterLink}
-              to='/'
-              _hover={{ textDecor: 'none', color: 'black' }}
+        <Flex gap='20px' justifyContent='center' alignItems='center'>
+          <Link as={RouterLink} to='/'>
+            <Button
               color='white'
+              variant='link' // Change the variant to 'solid'
+              bgColor='transparent' // Set a transparent background color (optional)
+              _hover={{ transform: 'scale(1.03)' }}
+              _active={{ opacity: '60%' }}
             >
               Sign Up
-            </Link>
-          </Button>
-          <Button variant='solid'>
-            <Link as={RouterLink} to='/about' _hover={{ textDecor: 'none' }}>
-              About
-            </Link>
-          </Button>
+            </Button>
+          </Link>
+          <Link as={RouterLink} to='/' _hover={{ textDecor: 'none' }}>
+            <Button variant='solid'>Login</Button>
+          </Link>
         </Flex>
       </Flex>
     </Box>
