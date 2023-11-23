@@ -9,7 +9,8 @@ import {
   Text,
   Link,
 } from '@chakra-ui/react'
-// import { Link as RouterLink } from 'react-router-dom';
+// import { Link as RouterLink } from 'react-router-dom'
+// TODO: understand why routerlink is not used?
 
 const courseData = [
   {
@@ -28,7 +29,7 @@ const courseData = [
     title: 'CS61C',
     description: 'Great Ideas in Computer Architecture (Machine Structures)',
     imageSrc: './cs61c.png',
-    link: 'https://example.com/cs61c', // External link
+    link: '/coursepage',
   },
   // Add more course data as needed
 ]

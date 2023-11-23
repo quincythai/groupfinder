@@ -1,13 +1,5 @@
-import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import {
-  Box,
-  Flex,
-  Link,
-  Heading,
-  Button,
-  textDecoration,
-} from '@chakra-ui/react'
+import { Box, Flex, Link, Heading, Button } from '@chakra-ui/react'
 import Logo from './Logo'
 
 import { useTheme } from '@chakra-ui/react'
