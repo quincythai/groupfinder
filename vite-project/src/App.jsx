@@ -51,7 +51,7 @@ function App() {
 // TODO: figure out how to have minheight stuff
 
 const Layout = ({ children }) => (
-  <Box minHeight='100vh'>
+  <Box>
     <Navbar />
     {children}
     <Footer />
