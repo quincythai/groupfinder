@@ -13,12 +13,7 @@ const Home = () => {
       justifyContent='center'
       alignItems='center'
     >
-      <Box
-        display='flex'
-        alignItems='center'
-        justifyContent='space-between'
-        gap='20%'
-      >
+      <Box display='flex' alignItems='center' gap='100px'>
         <Box display='flex' flexDirection='column'>
           <Heading mb='4' fontSize='80px'>
             <Logo />
@@ -42,7 +37,7 @@ const Home = () => {
           src='group-svgrepo-com.svg'
           objectFit='cover'
           alt='Group of people clipart'
-          boxSize='250px'
+          boxSize='300px'
         ></Image>
       </Box>
     </Box>
