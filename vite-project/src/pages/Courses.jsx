@@ -2,7 +2,6 @@ import {
   Flex,
   Heading,
   Card,
-  Link,
   Box,
   Image,
   Stack,
@@ -36,8 +35,7 @@ const Courses = () => {
         <Heading marginBottom='20px'>Courses</Heading>
         <Flex flexWrap='wrap' gap='20px'>
           {courseData.map((course, index) => (
-            <Link
-              href='/coursepage'
+            <Card
               key={index}
               direction={{ base: 'column', sm: 'row' }}
               overflow='hidden'
@@ -45,7 +43,6 @@ const Courses = () => {
               bg='gray.200'
               minW={{ base: '100%', sm: '400px' }}
               maxW={{ base: '100%', sm: '400px' }}
-              as={Card}
               _hover={{
                 textDecoration: 'none',
                 shadow: 'lg',
@@ -67,7 +64,7 @@ const Courses = () => {
                   <Text py='2'>{course.description}</Text>
                 </CardBody>
               </Stack>
-            </Link>
+            </Card>
           ))}
         </Flex>
       </Box>
