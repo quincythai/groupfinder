@@ -1,10 +1,10 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Courses from './pages/Courses'
 import CoursePage from './pages/CoursePage'
+import { Box } from '@chakra-ui/react'
 
 function App() {
   return (
@@ -47,12 +47,15 @@ function App() {
   )
 }
 
+//TODO: figure out props validation error
+// TODO: figure out how to have minheight stuff
+
 const Layout = ({ children }) => (
-  <div style={{ minHeight: '100vh' }}>
+  <Box minHeight='100vh'>
     <Navbar />
     {children}
     <Footer />
-  </div>
+  </Box>
 )
 
 const About = () => <h2>About page</h2>
