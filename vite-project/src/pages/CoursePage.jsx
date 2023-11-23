@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
 // import DrawerExample from '../components/DrawerExample'
 
