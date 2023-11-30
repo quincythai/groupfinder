@@ -1,9 +1,13 @@
 import { Flex } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
-  const projectData = [
+  // Get course data from backend.
+  
+  const [courseData, setCourseData] = useState([
     {
       image: 'byow.png',
       heading: 'Need a partner for BYOW',
@@ -40,7 +44,16 @@ const CoursePage = () => {
       text: '...',
       numPeopleNeeded: '0/111',
     },
-  ]
+  ])
+  // Makes an api request to the backend to get all of the data from the course.
+  const getData = async () => {
+    const response = await axios.get('http://localhost:5000/api/courses')
+    setCourseData(response.data)
+  }
+  // Fetches the data from the backend as soon as the component loads.
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <Flex
