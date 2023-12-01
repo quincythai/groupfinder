@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import axios from 'axios'
 import {
   Card,
   Button,
@@ -12,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Input,
+  Textarea,
 } from '@chakra-ui/react'
 
 const SampleGroupCard = () => {
@@ -21,31 +23,37 @@ const SampleGroupCard = () => {
   const [description, setDescription] = useState('')
   const [currentNumPeople, setCurrentNumPeople] = useState(0)
   const [totalNumPeople, setTotalNumPeople] = useState(0)
-  const [inputValue, setInputValue] = useState('')
 
   const handleOpenModal = () => {
     setIsOpen(true)
   }
 
+  // Close and reset state variables
   const handleCloseModal = () => {
     setIsOpen(false)
-    setInputValue('') // Reset the input value when closing the modal
-  }
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value)
+    setTitle('')
+    setImage(null)
+    setDescription('')
+    setCurrentNumPeople(0)
+    setTotalNumPeople(0)
   }
 
   const handleCreateGroup = () => {
-    // Handle creating the group with the entered text
-    console.log('Creating group with input:', inputValue)
+    const groupData = [
+      title,
+      image,
+      description,
+      currentNumPeople,
+      totalNumPeople,
+    ]
 
-    // Close the modal after handling the creation
+    console.log('Creating group with input:', { groupData })
     handleCloseModal()
   }
 
   return (
     <>
+      {/* Create your own group card */}
       <Card minW='xs' maxW='xs' display='flex' justifyContent='center'>
         <Flex flexDirection='column' gap='20px'>
           <Text alignSelf='center' fontWeight='bold' fontSize='24px'>
@@ -62,6 +70,7 @@ const SampleGroupCard = () => {
         </Flex>
       </Card>
 
+      {/* Modal for create your own group card */}
       <Modal isOpen={isOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
@@ -72,21 +81,42 @@ const SampleGroupCard = () => {
             <Input
               value={title}
               onChange={(event) => setTitle(event.target.value)}
+              placeholder='Heading'
               mb='4'
             />
             <Text>Upload image:</Text>
             <Input
-              value={inputValue}
+              value={image}
               type='file'
-              onChange={(event) => setImage(event.target.value)}
+              onChange={(event) => setImage(event.target.files[0])}
               mb='4'
+              padding='4px'
             />
             <Text>Description:</Text>
-            <Input value={inputValue} onChange={handleInputChange} mb='4' />
+            <Textarea
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              mb='4'
+              resize='none'
+              placeholder='Enter description here'
+            />
             <Text>Current number of people:</Text>
-            <Input value={inputValue} onChange={handleInputChange} mb='4' />
+            <Input
+              // To not display the default 0 number
+              value={currentNumPeople === 0 ? '' : totalNumPeople}
+              placeholder='Number of people you currently have'
+              onChange={(event) => setCurrentNumPeople(event.target.value)}
+              type='number'
+              mb='4'
+            />
             <Text>Total number of people:</Text>
-            <Input value={inputValue} onChange={handleInputChange} mb='4' />
+            <Input
+              value={totalNumPeople === 0 ? '' : totalNumPeople}
+              placeholder='Total number of people you need'
+              onChange={(event) => setTotalNumPeople(event.target.value)}
+              type='number'
+              mb='4'
+            />
           </ModalBody>
 
           <ModalFooter>
