@@ -15,7 +15,8 @@ const db = new sqlite3.Database('./mydatabase.db');
 // Define your API routes here
 app.get('/api/data', (req, res) => {
   // Example: Fetch data from SQLite database
-  db.all('SELECT * FROM CS61C', (err, rows) => {
+  const className = req.query.className;
+  db.all(`SELECT * FROM ${className}`, (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -27,9 +28,15 @@ app.get('/api/data', (req, res) => {
 
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
 // currentNumPeople, and totalPeopleNeeded.
-app.post('/api/data', (req, res) => {
-  // Example: Fetch data from SQLite database
-  db.all('INSERT INTO CS61C VALUES (Image, Heading, Text, currentNumPeople, totalPeopleNeeded)', (err, rows) => {
+app.post('/api/addcard', (req, res) => {
+  const className = req.query.className;
+  const Image = req.query.Image;
+  const Heading = req.query.Heading;
+  const Text = req.query.Text;
+  const currentNumPeople = req.query.currentNumPeople;
+  const totalPeopleNeeded = req.query.totalPeopleNeeded;
+
+  db.all(`INSERT INTO ${className} VALUES (${Image}, ${Heading}, ${Text}, ${currentNumPeople}, ${totalPeopleNeeded})`, (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal Server Error' });

@@ -47,7 +47,7 @@ const CoursePage = () => {
   ])
   // Makes an api request to the backend to get all of the data from the course.
   const getData = async () => {
-    const response = await axios.get('http://localhost:5000/api/courses')
+    const response = await axios.get(`http://localhost:5000/api/courses`)
     setCourseData(response.data)
   }
   // Fetches the data from the backend as soon as the component loads.
