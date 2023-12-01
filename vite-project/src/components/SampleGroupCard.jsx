@@ -47,8 +47,16 @@ const SampleGroupCard = () => {
       totalNumPeople,
     ]
 
-    console.log('Creating group with input:', { groupData })
-    handleCloseModal()
+    const api = '...'
+    axios
+      .post(api, groupData)
+      .then((response) => {
+        console.log('Group created successfully: ', response.data)
+        handleCloseModal()
+      })
+      .catch((error) => {
+        console.log('Error creating group: ', error)
+      })
   }
 
   return (
