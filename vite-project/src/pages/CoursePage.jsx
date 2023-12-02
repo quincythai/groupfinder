@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import SampleGroupCard from '../components/SampleGroupCard'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
@@ -63,6 +64,7 @@ const CoursePage = () => {
       alignItems='center'
     >
       <Flex flexWrap='wrap' gap='20px'>
+        <SampleGroupCard />
         {projectData.map((project) => (
           <GroupCard
             key={project.heading}
