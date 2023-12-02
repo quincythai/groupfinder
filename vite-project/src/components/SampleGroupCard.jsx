@@ -47,7 +47,7 @@ const SampleGroupCard = () => {
       totalNumPeople,
     ]
 
-    const api = '...'
+    const api = '/api/addgroup'
     axios
       .post(api, groupData)
       .then((response) => {
