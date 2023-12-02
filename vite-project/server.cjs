@@ -12,14 +12,14 @@ const port = 5001; // choose a port for your backend
 // Connect to SQLite database (create if not exists)
 const db = new sqlite3.Database('./mydatabase.db');
 
-// Define your API routes here
+// API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/data', (req, res) => {
   // Example: Fetch data from SQLite database
   const className = req.query.className;
   db.all(`SELECT * FROM ${className}`, (err, rows) => {
     if (err) {
       console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: `Error when fetching data from ${className}` });
       return;
     }
     res.json(rows);
@@ -28,7 +28,7 @@ app.get('/api/data', (req, res) => {
 
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
 // currentNumPeople, and totalPeopleNeeded.
-app.post('/api/addcard', (req, res) => {
+app.post('/api/addgroup', (req, res) => {
   const className = req.query.className;
   const Image = req.query.Image;
   const Heading = req.query.Heading;
@@ -39,12 +39,42 @@ app.post('/api/addcard', (req, res) => {
   db.all(`INSERT INTO ${className} VALUES (${Image}, ${Heading}, ${Text}, ${currentNumPeople}, ${totalPeopleNeeded})`, (err, rows) => {
     if (err) {
       console.error(err);
+      res.status(500).json({ error: `Error when adding group to class ${className}.` });
+      return;
+    }
+    res.json(rows);
+  });
+});
+
+// API route to add a person to the card, with a POST request containing the class name, and the group Heading.
+app.post('/api/addperson', (req, res) => {
+  const className = req.query.className;
+  const Heading = req.query.Heading;
+
+  db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ${Heading}`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${Heading} in class ${className}` });
+      return;
+    }
+    res.json(rows);
+  });
+});
+
+// API route to add a class to the database, with a POST request containing the class name.
+app.post('/api/addclass', (req, res) => {
+  const className = req.query.className;
+  
+  db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
+    if (err) {
+      console.error(err);
       res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
     res.json(rows);
   });
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
