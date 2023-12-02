@@ -5,9 +5,12 @@
 // server.js
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
+const cors = require('cors');
+
 
 const app = express();
 const port = 5001; // choose a port for your backend
+app.use(cors());
 
 // Connect to SQLite database (create if not exists)
 const db = new sqlite3.Database('./mydatabase.db');
