@@ -7,7 +7,7 @@ import SampleGroupCard from '../components/SampleGroupCard'
 
 const CoursePage = () => {
   // Get course data from backend.
-  
+
   const [courseData, setCourseData] = useState([
     {
       image: 'byow.png',
@@ -65,7 +65,7 @@ const CoursePage = () => {
     >
       <Flex flexWrap='wrap' gap='20px'>
         <SampleGroupCard />
-        {projectData.map((project) => (
+        {courseData.map((project) => (
           <GroupCard
             key={project.heading}
             image={project.image}
