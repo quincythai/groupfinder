@@ -2,11 +2,12 @@ import { Flex } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import SampleGroupCard from '../components/SampleGroupCard'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
   // Get course data from backend.
-  
+
   const [courseData, setCourseData] = useState([
     {
       image: 'byow.png',
@@ -67,7 +68,8 @@ const CoursePage = () => {
       alignItems='center'
     >
       <Flex flexWrap='wrap' gap='20px'>
-        {projectData.map((project) => (
+        <SampleGroupCard />
+        {courseData.map((project) => (
           <GroupCard
             key={project.heading}
             image={project.image}
