@@ -2,50 +2,79 @@
 //TODO: add a table that stores all of the different classes that are in the system.
 //TODO: add a table that stores the user's information, including username, password, and classes.
 
-// server.js
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+const express = require('express')
+const sqlite3 = require('sqlite3').verbose()
+const cors = require('cors')
 
-const app = express();
-const port = 5001; // choose a port for your backend
+const app = express()
+const port = 5001
 
-// Connect to SQLite database (create if not exists)
-const db = new sqlite3.Database('./mydatabase.db');
+app.use(cors())
+app.use(express.json())
 
-// Define your API routes here
-app.get('/api/data', (req, res) => {
-  // Example: Fetch data from SQLite database
-  const className = req.query.className;
+const db = new sqlite3.Database('./mydatabase.db')
+
+// Define API routes
+
+// Fetch data from a specific class
+app.get('/api/data/:className', (req, res) => {
+  const className = req.params.className
+
   db.all(`SELECT * FROM ${className}`, (err, rows) => {
     if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
+      console.error(err)
+      res.status(500).json({ error: 'Internal Server Error' })
+      return
     }
-    res.json(rows);
-  });
-});
+    res.json(rows)
+  })
+})
 
-// API route to add rows to our database, with a POST request containing Image, Heading, Text,
-// currentNumPeople, and totalPeopleNeeded.
-app.post('/api/addcard', (req, res) => {
-  const className = req.query.className;
-  const Image = req.query.Image;
-  const Heading = req.query.Heading;
-  const Text = req.query.Text;
-  const currentNumPeople = req.query.currentNumPeople;
-  const totalPeopleNeeded = req.query.totalPeopleNeeded;
+// Add a card to a specific class
+app.post('/api/addcard/:className', (req, res) => {
+  const className = req.params.className
+  const { Image, Heading, Text, currentNumPeople, totalPeopleNeeded } = req.body
 
-  db.all(`INSERT INTO ${className} VALUES (${Image}, ${Heading}, ${Text}, ${currentNumPeople}, ${totalPeopleNeeded})`, (err, rows) => {
+  // TODO: Add proper validation for the incoming data
+
+  const query = `INSERT INTO ${className} (Image, Heading, Text, currentNumPeople, totalPeopleNeeded)
+                 VALUES (?, ?, ?, ?, ?)`
+
+  db.run(
+    query,
+    [Image, Heading, Text, currentNumPeople, totalPeopleNeeded],
+    function (err) {
+      if (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Internal Server Error' })
+        return
+      }
+      res.json({ message: 'Card added successfully', cardId: this.lastID })
+    }
+  )
+})
+
+// Contact us
+app.post('/api/contact_us', (req, res) => {
+  const { email, message } = req.body
+
+  if (!email || !message) {
+    return res.status(400).json({ error: 'Email and message are required.' })
+  }
+
+  const query = 'INSERT INTO contact_us (email, message) VALUES (?, ?)'
+
+  db.run(query, [email, message], function (err) {
     if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
+      console.error('Error inserting data into the database:', err)
+      return res.status(500).json({ error: 'Internal Server Error' })
     }
-    res.json(rows);
-  });
-});
+
+    console.log('Data inserted successfully:', this.lastID)
+    res.status(200).json({ message: 'Data inserted successfully' })
+  })
+})
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+  console.log(`Server is running on http://localhost:${port}`)
+})
