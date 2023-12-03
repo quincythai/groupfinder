@@ -55,16 +55,16 @@ const SampleGroupCard = () => {
 
     const endpoint = 'http://localhost:5001/api/addgroup'
     // The time when the group was created.
-    try {
-      const response = await axios.post(endpoint, params)
-      console.log('Group created successfully: ', response.data)
+      axios.post(endpoint, params)
+      .then((response) => {
+        console.log('Group created successfully: ', response.data)
+      })
+      .catch((error) => {
+        console.log('Error creating group: ', error)
+      })
       handleCloseModal()
-    }
-    catch (error) {
-      console.log('Error creating group: ', error)
+      window.location.reload()
   }
-  handleCloseModal()
-}
 
   return (
     <>
