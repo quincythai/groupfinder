@@ -18,9 +18,9 @@ import { useDisclosure } from '@chakra-ui/react'
 // Center image
 // Have all same image sizes
 
-const GroupCard = ({ image, heading, text, numPeopleNeeded }) => {
+const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  console.log(text)
   return (
     <Card minW='xs' maxW='xs'>
       <CardBody>
@@ -43,7 +43,7 @@ const GroupCard = ({ image, heading, text, numPeopleNeeded }) => {
         gap='20px'
       >
         <Text alignSelf='end' color='blue.600' fontSize='2xl'>
-          {numPeopleNeeded}
+          {currentNumPeople} / {totalPeopleNeeded}
         </Text>
         <Button variant='solid' colorScheme='blue' onClick={onOpen}>
           View Info

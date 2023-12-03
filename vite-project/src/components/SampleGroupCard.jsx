@@ -38,7 +38,6 @@ const SampleGroupCard = () => {
     setTotalNumPeople(0)
   }
   const className = 'CS61C'
-
   const handleCreateGroup = async() => {
     const params = {
       className,
@@ -50,6 +49,7 @@ const SampleGroupCard = () => {
   };
 
     const endpoint = 'http://localhost:5001/api/addgroup'
+    // The time when the group was created.
     try {
       console.log(params)
       const response = await axios.post(endpoint, params)

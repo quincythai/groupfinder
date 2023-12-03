@@ -16,18 +16,41 @@ app.use(bodyParser.json());
 // Connect to SQLite database (create if not exists)
 const db = new sqlite3.Database('./mydatabase.db');
 
+function parseSortBy(sortBy) {
+  switch (sortBy) {
+    case 'Time Created':
+      return 'ID';
+    case 'Open Spots':
+      return 'currentNumPeople - totalPeopleNeeded';
+    default:
+      return 'ID';
+  }
+}
 // API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/courses', (req, res) => {
   // Example: Fetch data from SQLite database
   const className = req.query.className;
-  db.all(`SELECT * FROM ${className}`, (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: `Error when fetching data from ${className}` });
-      return;
-    }
-    res.json(rows);
-  });
+  const sortBy = req.query.sortBy;
+  if (sortBy) {
+    sortBy = parseSortBy(sortBy);
+    db.all(`SELECT * FROM ${className} ORDER BY ${sortBy}`, (err, rows) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: `Error when fetching data from ${className}` });
+        return;
+      }
+      res.json(rows);
+    });
+  } else {
+    db.all(`SELECT * FROM ${className}`, (err, rows) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: `Error when fetching data from ${className}` });
+        return;
+      }
+      res.json(rows);
+    });
+  }
 });
 
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
