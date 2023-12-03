@@ -18,23 +18,38 @@ import {
   Box, 
   Link, 
   Heading,
-  useTheme
+  useTheme,
+  InputGroup,
+  InputRightElement
 } from '@chakra-ui/react'
-
+import LoginPopup from './LoginPopup'
+import SignupPopup from './SignupPopup'
 
 
 const Navbar = () => {
   const theme = useTheme()
   const primaryColor = theme.colors.blue[800]
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isSignupOpen, setSignupOpen] = useState(false)
+  const [isLoginOpen, setLoginOpen] = useState(false)
 
-  const handleOpenModal = () => {
-    setIsOpen(true)
+  const [showPassword, setShowPassword] = useState(false)
+  const handleShowPassword = () => setShowPassword(!showPassword)
+
+  const handleOpenLogin = () => {
+    setLoginOpen(true)
   }
 
-  const handleCloseModal = () =>{
-    setIsOpen(false)
+  const handleCloseLogin = () =>{
+    setLoginOpen(false)
+  }
+
+  const handleOpenSignup = () => {
+    setSignupOpen(true)
+  }
+
+  const handleCloseSignup = () =>{
+    setSignupOpen(false)
   }
 
 
@@ -55,38 +70,23 @@ const Navbar = () => {
               bgColor='transparent' // Set a transparent background color (optional)
               _hover={{ transform: 'scale(1.03)' }}
               _active={{ opacity: '60%' }}
+              onClick = {handleOpenSignup}
             >
               Sign Up
             </Button>
           </Link>
           <Link as={RouterLink} to='/' _hover={{ textDecor: 'none' }}>
-            <Button variant='solid' onClick = {handleOpenModal}>Login</Button>
+            <Button variant='solid' onClick = {handleOpenLogin}>Login</Button>
           </Link>
         </Flex>
       </Flex>
     </Box>
 
-    <Modal isOpen={isOpen} onClose={handleCloseModal}>
-      <ModalOverlay/>
-      <ModalContent>
-        <ModalHeader>
-          Login
-        </ModalHeader>
-        <ModalCloseButton/>
-        <ModalBody>
-          <Text>Email or Username</Text>
-          <Input
-            placeholder=''
-            onChange = {(event) => setuserName}
-
-
-
-          />
-
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <LoginPopup isOpen={isLoginOpen} onClose={handleCloseLogin}/>
     
+    <SignupPopup onClose={handleCloseSignup} isOpen={isSignupOpen} onClick={handleShowPassword} isShown={showPassword}/>
+
+
     </>
   )
 
