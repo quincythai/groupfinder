@@ -35,7 +35,7 @@ const SampleGroupCard = () => {
     setImage(null)
     settext('')
     setCurrentNumPeople(0)
-    setTotalNumPeople(0)
+    setTotalPeopleNeeded(0)
   }
   const className = 'CS61C'
   const handleCreateGroup = async() => {
@@ -58,7 +58,9 @@ const SampleGroupCard = () => {
     }
     catch (error) {
       console.log('Error creating group: ', error)
-  }}
+  }
+  handleCloseModal()
+}
 
   return (
     <>

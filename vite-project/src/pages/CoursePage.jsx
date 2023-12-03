@@ -73,7 +73,7 @@ const CoursePage = () => {
         {courseData.map((project) => (
           <GroupCard
             key={project.heading}
-            image={project.image}
+            image={project.Image}
             heading={project.Heading}
             text={project.Text}
             currentNumPeople={project.currentNumPeople}
