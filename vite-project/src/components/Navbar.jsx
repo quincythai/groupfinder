@@ -1,14 +1,45 @@
+import { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Box, Flex, Link, Heading, Button } from '@chakra-ui/react'
 import Logo from './Logo'
+import {
+  Card,
+  Button,
+  Flex,
+  Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Input,
+  Textarea,
+  Box, 
+  Link, 
+  Heading,
+  useTheme
+} from '@chakra-ui/react'
 
-import { useTheme } from '@chakra-ui/react'
+
 
 const Navbar = () => {
   const theme = useTheme()
   const primaryColor = theme.colors.blue[800]
 
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpenModal = () => {
+    setIsOpen(true)
+  }
+
+  const handleCloseModal = () =>{
+    setIsOpen(false)
+  }
+
+
   return (
+    <>
     <Box as='nav' p={4} bg={primaryColor} color='white'>
       <Flex justify='space-between' align='center'>
         <Link as={RouterLink} to='/' _hover={{ textDecoration: 'none' }}>
@@ -29,12 +60,39 @@ const Navbar = () => {
             </Button>
           </Link>
           <Link as={RouterLink} to='/' _hover={{ textDecor: 'none' }}>
-            <Button variant='solid'>Login</Button>
+            <Button variant='solid' onClick = {handleOpenModal}>Login</Button>
           </Link>
         </Flex>
       </Flex>
     </Box>
+
+    <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      <ModalOverlay/>
+      <ModalContent>
+        <ModalHeader>
+          Login
+        </ModalHeader>
+        <ModalCloseButton/>
+        <ModalBody>
+          <Text>Email or Username</Text>
+          <Input
+            placeholder=''
+            onChange = {(event) => setuserName}
+
+
+
+          />
+
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+    
+    </>
   )
+
+
+
+
 }
 
 export default Navbar

@@ -111,7 +111,7 @@ const SampleGroupCard = () => {
             <Text>Current number of people:</Text>
             <Input
               // To not display the default 0 number
-              value={currentNumPeople === 0 ? '' : totalNumPeople}
+              value={totalNumPeople === 0 ? '' : currentNumPeople}
               placeholder='Number of people you currently have'
               onChange={(event) => setCurrentNumPeople(event.target.value)}
               type='number'
