@@ -56,7 +56,7 @@ app.get('/api/courses', (req, res) => {
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
 // currentNumPeople, and totalPeopleNeeded.
 app.post('/api/addgroup', (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   const className = req.body.className;
   const image = req.body.image;
   const heading = req.body.heading;

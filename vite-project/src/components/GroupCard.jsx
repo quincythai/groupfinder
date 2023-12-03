@@ -17,10 +17,16 @@ import { useDisclosure } from '@chakra-ui/react'
 // Figure out how to truncate descriptions that are too long
 // Center image
 // Have all same image sizes
+const defaultImage = 'quincy.JPG'
 
 const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  console.log(text)
+  if (image == "null" || !image) {
+    console.log("image is null")
+    image = defaultImage
+  }
+  console.log(image)
+  // console.log(text)
   return (
     <Card minW='xs' maxW='xs'>
       <CardBody>
