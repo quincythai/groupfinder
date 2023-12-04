@@ -2,6 +2,7 @@ import * as React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import * as ReactDOM from 'react-dom/client'
 import App from './App';
+import {Auth0Provider} from '@auth0/auth0-react'
 
 // 1. Import the extendTheme function
 import { extendTheme } from '@chakra-ui/react'
@@ -26,7 +27,14 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
+
+        <Auth0Provider
+          domain='dev-jooh2eplg1s7cuq0.us.auth0.com'
+          clientId='xlmCylckvrMsdjuRbVUvxzvnyQwNsEJK'
+          authorizationParams={{redirect_uri:window.location.origin}}
+        >
         <App />
+        </Auth0Provider>
       </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>,
