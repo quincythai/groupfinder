@@ -1,7 +1,7 @@
 import { Flex, Box, Button, Text, useTheme } from '@chakra-ui/react'
 import { useState } from 'react'
 
-const Filter = (props) => {
+const Sort = (props) => {
     return (
     <>
     <Flex 
@@ -12,13 +12,13 @@ const Filter = (props) => {
     gap = '20px'
     alignItems='center'>
     <Text as="b">
-    Filter:
+    Sort:
     </Text>
      <Button
       colorScheme='teal'
       _hover={{ transform: 'scale(1.03)' }}
       _active={{opacity:'60%'}}
-      onClick={props.onFilterAuth}>
+      onClick={props.onSortAvail}>
       Availability
     </Button>
     
@@ -26,7 +26,7 @@ const Filter = (props) => {
       colorScheme='teal'
       _hover={{ transform: 'scale(1.03)' }}
       _active={{opacity:'60%'}}
-      onClick={props.onFilterDate}>
+      onClick={props.onSortDate}>
       Date Created
     </Button> 
 
@@ -35,4 +35,4 @@ const Filter = (props) => {
     )
 }
 
-export default Filter
+export default Sort

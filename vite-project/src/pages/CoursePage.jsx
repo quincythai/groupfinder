@@ -3,7 +3,7 @@ import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SampleGroupCard from '../components/SampleGroupCard'
-import Filter from '../components/Filter'
+import Filter from '../components/Sort'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
@@ -84,10 +84,10 @@ const CoursePage = () => {
     <>
     { /* Should run a function that gets data based on the filter. */ }
     <Filter
-    onFilterAuth={
+    onSortAvail={
       () => handleFilterData('Availability')
     }
-    onFilterDate={
+    onSortDate={
       () => handleFilterData('dateCreated')
     }
     />
