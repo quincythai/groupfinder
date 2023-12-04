@@ -76,8 +76,8 @@ app.post('/api/addgroup', (req, res) => {
 
 // API route to add a person to the card, with a POST request containing the class name, and the group Heading.
 app.post('/api/addperson', (req, res) => {
-  const className = req.query.className;
-  const heading = req.query.heading;
+  const className = req.body.className || req.query.className;
+  const heading = req.body.heading || req.query.heading;
 
   db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ${heading}`, (err, rows) => {
     if (err) {
@@ -91,7 +91,7 @@ app.post('/api/addperson', (req, res) => {
 
 // API route to add a class to the database, with a POST request containing the class name.
 app.post('/api/addclass', (req, res) => {
-  const className = req.query.className;
+  const className = req.query.className || req.body.className;
   
   db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
     if (err) {
