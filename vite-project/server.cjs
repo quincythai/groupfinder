@@ -30,12 +30,14 @@ function parseSortBy(sortBy) {
 // API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/courses', (req, res) => {
   // Example: Fetch data from SQLite database
-  const className = req.query.className;
-  const sortBy = req.query.sortBy;
+  const className = req.query.className || req.body.className;
+  const sortBy = req.query.sortBy || req.body.sortBy;
+  console.log(sortBy)
   if (sortBy) {
     const parsedSortBy = parseSortBy(sortBy);
+    console.log(parsedSortBy)
     db.all(
-      `SELECT * FROM ${className} ORDER BY ?`, [parsedSortBy], (err, rows) => {
+      `SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });

@@ -13,7 +13,7 @@ import React from 'react'
 import axios from 'axios'
 
 const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) => {
-  console.log(isFull)
+  // console.log(isFull)
   const joinGroup = () => {
     const params = {
       className,
