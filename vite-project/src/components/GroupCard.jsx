@@ -22,10 +22,10 @@ const defaultImage = 'quincy.JPG'
 const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   if (image == "null" || !image) {
-    console.log("image is null")
+    // console.log("image is null")
     image = defaultImage
   }
-  console.log(image)
+  // console.log(image)
   // console.log(text)
   return (
     <Card minW='xs' maxW='xs'>

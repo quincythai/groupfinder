@@ -18,10 +18,10 @@ const db = new sqlite3.Database('./mydatabase.db');
 
 function parseSortBy(sortBy) {
   switch (sortBy) {
-    case 'Time Created':
+    case 'dateCreated':
       return 'ID';
-    case 'Open Spots':
-      return 'currentNumPeople - totalPeopleNeeded';
+    case 'Availability':
+      return 'totalPeopleNeeded - currentNumPeople DESC';
     default:
       return 'ID';
   }
@@ -32,8 +32,9 @@ app.get('/api/courses', (req, res) => {
   const className = req.query.className;
   const sortBy = req.query.sortBy;
   if (sortBy) {
-    sortBy = parseSortBy(sortBy);
-    db.all(`SELECT * FROM ${className} ORDER BY ${sortBy}`, (err, rows) => {
+    const parsedSortBy = parseSortBy(sortBy);
+    console.log(parsedSortBy)
+    db.all(`SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });
