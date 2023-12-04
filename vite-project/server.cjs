@@ -94,7 +94,7 @@ app.post('/api/joingroup', (req, res) => {
 
 // API route to add a class to the database, with a POST request containing the class name.
 app.post('/api/addclass', (req, res) => {
-  const className = req.body.className;
+  const className = req.query.className || req.body.className;
   
   db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
     if (err) {
