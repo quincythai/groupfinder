@@ -6,6 +6,7 @@ import SampleGroupCard from '../components/SampleGroupCard'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
+  const className = 'CS61C'
   // Get course data from backend.
 
   const [courseData, setCourseData] = useState([
@@ -50,7 +51,7 @@ const CoursePage = () => {
   const getData = async () => {
     const response = await axios.get(`http://localhost:5001/api/courses`, {
       params: {
-        className: 'CS61C',
+        className: className,
       },
     })
     setCourseData(response.data)
@@ -72,6 +73,7 @@ const CoursePage = () => {
         <SampleGroupCard />
         {courseData.map((project) => (
           <GroupCard
+            className={className}
             key={project.heading}
             image={project.Image}
             heading={project.Heading}

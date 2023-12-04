@@ -19,7 +19,7 @@ import { useDisclosure } from '@chakra-ui/react'
 // Have all same image sizes
 const defaultImage = 'quincy.JPG'
 
-const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
+const GroupCard = ({ className, image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   if (image == "null" || !image) {
     console.log("image is null")
@@ -38,7 +38,10 @@ const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }
         />
         <Stack mt='6' spacing='3'>
           <Heading size='md'>{heading}</Heading>
-          <Text>{text}</Text>
+          {/* Truncate text if it is too long, otherwise display the whole text */}
+          <Text>{
+            text.length > 100 ? text.substring(0, 100) + "..." : text
+            }</Text>
         </Stack>
       </CardBody>
       <Divider />
@@ -54,7 +57,11 @@ const GroupCard = ({ image, heading, text, currentNumPeople, totalPeopleNeeded }
         <Button variant='solid' colorScheme='blue' onClick={onOpen}>
           View Info
         </Button>
-        <GroupCardModal isOpen={isOpen} onClose={onClose} />
+        <GroupCardModal isOpen={isOpen} onClose={onClose}
+        heading={heading}
+        text={text}
+        className={className}
+        isFull={currentNumPeople === totalPeopleNeeded ? true: false} />
       </CardFooter>
     </Card>
   )
