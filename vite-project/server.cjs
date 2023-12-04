@@ -34,13 +34,8 @@ app.get('/api/courses', (req, res) => {
   const sortBy = req.query.sortBy;
   if (sortBy) {
     const parsedSortBy = parseSortBy(sortBy);
-<<<<<<< HEAD
-    console.log(parsedSortBy)
-    db.all(`SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
-=======
     db.all(
       `SELECT * FROM ${className} ORDER BY ?`, [parsedSortBy], (err, rows) => {
->>>>>>> 1d6e3dbf5acaab651628384722e8ccdb79e02e5d
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });
