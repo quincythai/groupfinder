@@ -10,27 +10,42 @@ import {
 } from '@chakra-ui/react'
 
 import React from 'react'
+import axios from 'axios'
 
-const GroupCardModal = ({ isOpen, onClose }) => {
+const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) => {
+  console.log(isFull)
+  const joinGroup = () => {
+    const params = {
+      className,
+      heading,
+    }
+    console.log(params)
+    const endpoint = 'http://localhost:5001/api/joingroup'
+    axios.post(endpoint, params)
+    .then((response) => {
+      console.log('Group joined successfully: ', response.data)
+    })
+    .catch((error) => {
+      console.log('Error joining group: ', error)
+    })
+    window.location.reload()
+  }
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{heading}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-            magnam, nam laboriosam illo natus itaque in sit asperiores
-            exercitationem veritatis placeat fugiat eius ipsum cupiditate
-            corporis. Minima expedita laudantium alias?
+            {text}
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant='ghost'>Secondary Action</Button>
+            <Button variant='ghost' isDisabled={isFull} onClick={joinGroup}>Join</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

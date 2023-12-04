@@ -1,6 +1,7 @@
 //TODO: add a table for each class. Each table should have the following columns: Image, Heading, Text, currentNumPeople, and totalPeopleNeeded.
 //TODO: add a table that stores all of the different classes that are in the system.
 //TODO: add a table that stores the user's information, including username, password, and classes.
+//TODO: Refactor code to use ? VALUES syntax instead of string concatenation and literal values.
 
 // server.js
 const express = require('express');
@@ -33,8 +34,13 @@ app.get('/api/courses', (req, res) => {
   const sortBy = req.query.sortBy;
   if (sortBy) {
     const parsedSortBy = parseSortBy(sortBy);
+<<<<<<< HEAD
     console.log(parsedSortBy)
     db.all(`SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
+=======
+    db.all(
+      `SELECT * FROM ${className} ORDER BY ?`, [parsedSortBy], (err, rows) => {
+>>>>>>> 1d6e3dbf5acaab651628384722e8ccdb79e02e5d
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });
@@ -75,23 +81,25 @@ app.post('/api/addgroup', (req, res) => {
 });
 
 // API route to add a person to the card, with a POST request containing the class name, and the group Heading.
-app.post('/api/addperson', (req, res) => {
-  const className = req.query.className;
-  const heading = req.query.heading;
+app.post('/api/joingroup', (req, res) => {
+  const className = req.body.className;
+  const heading = req.body.heading;
+  console.log("Joining group with className " + className + " and heading " + heading);
 
-  db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ${heading}`, (err, rows) => {
+  db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ?`, [heading], (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
       return;
     }
+    console.log("Success joining group with className " + className + " and heading " + heading);
     res.json(rows);
   });
 });
 
 // API route to add a class to the database, with a POST request containing the class name.
 app.post('/api/addclass', (req, res) => {
-  const className = req.query.className;
+  const className = req.body.className;
   
   db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
     if (err) {
