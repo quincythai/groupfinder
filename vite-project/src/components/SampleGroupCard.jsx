@@ -39,6 +39,7 @@ const SampleGroupCard = () => {
   }
   const className = 'CS61C'
   const handleCreateGroup = async() => {
+    handleCloseModal()
     const params = {
       className,
       heading,
@@ -46,7 +47,7 @@ const SampleGroupCard = () => {
       text,
       currentNumPeople,
       totalPeopleNeeded,
-  };
+    };
 
     const endpoint = 'http://localhost:5001/api/addgroup'
     // The time when the group was created.
@@ -54,13 +55,11 @@ const SampleGroupCard = () => {
       console.log(params)
       const response = await axios.post(endpoint, params)
       console.log('Group created successfully: ', response.data)
-      handleCloseModal()
     }
     catch (error) {
       console.log('Error creating group: ', error)
+    }
   }
-  handleCloseModal()
-}
 
   return (
     <>

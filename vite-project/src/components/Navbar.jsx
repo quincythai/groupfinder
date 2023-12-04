@@ -5,22 +5,10 @@ import {
   Card,
   Button,
   Flex,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Input,
-  Textarea,
   Box, 
   Link, 
   Heading,
   useTheme,
-  InputGroup,
-  InputRightElement
 } from '@chakra-ui/react'
 import LoginPopup from './LoginPopup'
 import SignupPopup from './SignupPopup'
@@ -84,9 +72,10 @@ const Navbar = () => {
 
     <LoginPopup isOpen={isLoginOpen} onClose={handleCloseLogin}/>
     
-    <SignupPopup onClose={handleCloseSignup} isOpen={isSignupOpen} onClick={handleShowPassword} isShown={showPassword}/>
-
-
+    <SignupPopup onClose={handleCloseSignup} 
+                  isOpen={isSignupOpen} 
+                  onClick={handleShowPassword} 
+                  isShown={showPassword}/>
     </>
   )
 

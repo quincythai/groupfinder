@@ -1,8 +1,9 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Box, Button, Text, useTheme } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SampleGroupCard from '../components/SampleGroupCard'
+import Filter from '../components/Filter'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
@@ -62,12 +63,20 @@ const CoursePage = () => {
   }, [])
 
   return (
+    <>
+    
+    <Filter />
+
+
     <Flex
       bg='gray.200'
       padding='40px'
+      paddingTop= '10px'
       justifyContent='center'
       alignItems='center'
     >
+
+
       <Flex flexWrap='wrap' gap='20px'>
         <SampleGroupCard />
         {courseData.map((project) => (
@@ -82,6 +91,8 @@ const CoursePage = () => {
         ))}
       </Flex>
     </Flex>
+
+    </>
   )
 }
 
