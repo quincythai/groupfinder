@@ -39,7 +39,11 @@ const SampleGroupCard = () => {
   }
   const className = 'CS61C'
   const handleCreateGroup = async() => {
-    handleCloseModal()
+    if (currentNumPeople > totalPeopleNeeded) {
+      alert("Current number of people cannot be greater than total number of people.")
+      console.log("Current number of people cannot be greater than total number of people.")
+      return;
+    }
     const params = {
       className,
       heading,
@@ -51,14 +55,15 @@ const SampleGroupCard = () => {
 
     const endpoint = 'http://localhost:5001/api/addgroup'
     // The time when the group was created.
-    try {
-      console.log(params)
-      const response = await axios.post(endpoint, params)
-      console.log('Group created successfully: ', response.data)
-    }
-    catch (error) {
-      console.log('Error creating group: ', error)
-    }
+      axios.post(endpoint, params)
+      .then((response) => {
+        console.log('Group created successfully: ', response.data)
+      })
+      .catch((error) => {
+        console.log('Error creating group: ', error)
+      })
+      handleCloseModal()
+      window.location.reload()
   }
 
   return (
@@ -102,7 +107,7 @@ const SampleGroupCard = () => {
               mb='4'
               padding='4px'
             />
-            <Text>text:</Text>
+            <Text>Description:</Text>
             <Textarea
               value={text}
               onChange={(event) => settext(event.target.value)}
