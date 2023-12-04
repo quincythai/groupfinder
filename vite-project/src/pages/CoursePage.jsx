@@ -1,4 +1,4 @@
-import { Flex, Box, Button, Text, useTheme } from '@chakra-ui/react'
+import { Flex, Box, Button, Text, useTheme, filter } from '@chakra-ui/react'
 import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -47,6 +47,7 @@ const CoursePage = () => {
     //   numPeopleNeeded: '0/111',
     // },
   ])
+  const [sortBy, setSortBy] = useState('dateCreated')
   // Makes an api request to the backend to get all of the data from the course.
   const getData = async () => {
     const response = await axios.get(`http://localhost:5001/api/courses`, {
@@ -57,6 +58,23 @@ const CoursePage = () => {
     setCourseData(response.data)
     console.log(response.data)
   }
+  const getDataSorted = async (sort) => {
+    console.log(sort)
+    const response = await axios.get(`http://localhost:5001/api/courses`, {
+      params: {
+        className: 'CS61C',
+        sortBy: sort,
+      },
+    })
+    setCourseData(response.data)
+    console.log(response.data)
+  }
+  const handleFilterData = (selectedSort) => {
+    if (selectedSort != sortBy) {
+      getDataSorted(selectedSort)
+      setSortBy(selectedSort)
+    }
+  }
   // Fetches the data from the backend as soon as the component loads.
   useEffect(() => {
     getData()
@@ -64,8 +82,15 @@ const CoursePage = () => {
 
   return (
     <>
-    
-    <Filter />
+    { /* Should run a function that gets data based on the filter. */ }
+    <Filter
+    onFilterAuth={
+      () => handleFilterData('Availability')
+    }
+    onFilterDate={
+      () => handleFilterData('dateCreated')
+    }
+    />
 
 
     <Flex
