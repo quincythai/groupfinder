@@ -37,21 +37,24 @@ function parseSortBy(sortBy) {
       return 'ID';
   }
 }
-
-
-
-
-
+db.all(`CREATE TABLE IF NOT EXISTS user_groups (user TEXT, className TEXT, heading TEXT)`, (err, rows) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+});
 
 // API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/courses', (req, res) => {
   // Example: Fetch data from SQLite database
-  const className = req.query.className;
-  const sortBy = req.query.sortBy;
+  const className = req.query.className || req.body.className;
+  const sortBy = req.query.sortBy || req.body.sortBy;
+  console.log(sortBy)
   if (sortBy) {
     const parsedSortBy = parseSortBy(sortBy);
+    console.log(parsedSortBy)
     db.all(
-      `SELECT * FROM ${className} ORDER BY ?`, [parsedSortBy], (err, rows) => {
+      `SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });
@@ -161,9 +164,61 @@ app.post('/api/addgroup', (req, res) => {
 app.post('/api/joingroup', (req, res) => {
   const className = req.body.className;
   const heading = req.body.heading;
-  console.log("Joining group with className " + className + " and heading " + heading);
+  const username = req.body.user || req.body.username;
 
-  db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ?`, [heading], (err, rows) => {
+  console.log("Joining group with className " + className + " and heading " + heading + " as user " + username);
+
+  db.all(`INSERT INTO user_groups (user, className, heading) VALUES ("${username}", "${className}", "${heading}")`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
+      return;
+    }
+  });
+  
+  // Database query to count the number of people in the group from user_groups, and set currentNumPeople to that count.
+  var currentNumInGroup;
+  db.all(`SELECT COUNT(*) FROM user_groups WHERE className = ? AND heading = ?`, [className, heading], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
+      return;
+    }
+    currentNumInGroup = rows[0]['COUNT(*)'];
+  });
+  if (currentNumInGroup == undefined) {
+    res.status(500).json({ error: `Error when counting number of people in group` });
+    return;
+  }
+  db.all(`UPDATE ${className} SET currentNumPeople = ? WHERE Heading = ?`, [currentNumInGroup, heading], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
+      return;
+    }
+    console.log("Success joining group with className " + className + " and heading " + heading);
+    res.json(rows);
+  });
+});
+//For debugging / testing purposes, updates the count of a given group to the number of entries for that group in the user_groups table.
+app.post('/api/updategroupcount', (req, res) => {
+  const className = req.body.className;
+  const heading = req.body.heading;
+
+  var currentNumInGroup;
+  db.all(`SELECT COUNT(*) FROM user_groups WHERE className = ? AND heading = ?`, [className, heading], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
+      return;
+    }
+    currentNumInGroup = rows[0]['COUNT(*)'];
+  });
+  if (currentNumInGroup == undefined) {
+    res.status(500).json({ error: `Error when counting number of people in group` });
+    return;
+  }
+  db.all(`UPDATE ${className} SET currentNumPeople = ? WHERE Heading = ?`, [currentNumInGroup, heading], (err, rows) => {
     if (err) {
       console.error(err);
       res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
@@ -174,10 +229,46 @@ app.post('/api/joingroup', (req, res) => {
   });
 });
 
+app.get('/api/getusersingroup', (req, res) => {
 
+  const className = req.query.className || req.body.className;
+  const heading = req.query.heading || req.body.heading;
+  
+  db.all(`SELECT user FROM user_groups WHERE className = ? AND heading = ?`, [className, heading], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when getting users in group with Heading ${heading} in class ${className}` });
+      return;
+    }
+    res.json(rows);
+  });
+});
 
+// API route to add a class to the database, with a POST request containing the class name.
+app.post('/api/addclass', (req, res) => {
+  const className = req.query.className || req.body.className;
+  
+  db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(rows);
+  });
+});
 
-
+app.get('/api/getclasses', (req, res) => {
+  const user = req.query.user || req.body.user;
+  db.all(`SELECT DISTINCT className FROM user_groups WHERE user = ?`, [user], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.json(rows);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
