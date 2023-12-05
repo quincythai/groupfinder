@@ -14,8 +14,18 @@ const port = 5001; // choose a port for your backend
 app.use(cors());
 app.use(bodyParser.json());
 
+const {auth, requiredScopes} = require('express-oauth2-jwt-bearer');
+
+const checkJwt = auth({
+  audience: '{yourApiIdentifier}',
+  issuerBaseURL: `https://dev-jooh2eplg1s7cuq0.us.auth0.com/`,
+});
+
 // Connect to SQLite database (create if not exists)
 const db = new sqlite3.Database('./mydatabase.db');
+
+
+
 
 function parseSortBy(sortBy) {
   switch (sortBy) {
@@ -27,6 +37,12 @@ function parseSortBy(sortBy) {
       return 'ID';
   }
 }
+
+
+
+
+
+
 // API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/courses', (req, res) => {
   // Example: Fetch data from SQLite database
@@ -34,13 +50,8 @@ app.get('/api/courses', (req, res) => {
   const sortBy = req.query.sortBy;
   if (sortBy) {
     const parsedSortBy = parseSortBy(sortBy);
-<<<<<<< HEAD
-    console.log(parsedSortBy)
-    db.all(`SELECT * FROM ${className} ORDER BY ${parsedSortBy}`, (err, rows) => {
-=======
     db.all(
       `SELECT * FROM ${className} ORDER BY ?`, [parsedSortBy], (err, rows) => {
->>>>>>> 1d6e3dbf5acaab651628384722e8ccdb79e02e5d
       if (err) {
         console.error(err);
         res.status(500).json({ error: `Error when fetching data from ${className}` });
@@ -58,6 +69,72 @@ app.get('/api/courses', (req, res) => {
       res.json(rows);
     });
   }
+});
+
+
+//api route to return the list of classes that a user is in
+app.get('/api/user-class', (req, res) => {
+  const user = req.query.user || req.query.body;
+  console.log(user)
+  db.all(
+    `SELECT className FROM 'user-class' GROUP BY className HAVING user = '${user}'`, (err, rows) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error when fetching data from user-class'});
+        return;
+      }
+      res.json(rows);
+    }
+  );
+});
+
+
+
+app.get('/api/classDesc', (req,res)=>{
+  const className = req.query.className || req.query.body;
+  console.log(className);
+  db.all(`SELECT * From class WHERE '${className}' = Title`, (err, rows) =>{
+    if(err){
+      console.error(err);
+      res.status(500).json({error:'Error when fetching data from class'});
+      return;
+    }
+    res.json(rows);
+  })
+});
+
+
+
+
+//api route to add a user to a class
+app.post('/api/addUserToClass', (req, res)=>{
+  // const user = req.query.user || req.query.body.user;
+  const { username, classCode } = req.body;
+
+
+  db.all(`INSERT INTO 'user-class' (user, className) VALUES ('${username}', '${classCode}')`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error when adding user to class' });
+    } else {
+      res.status(200).json({ message: 'User added to class successfully' });
+    }
+  });
+});
+
+app.post('/api/addNewClass', (req, res)=>{
+  // const user = req.query.user || req.query.body.user;
+  const {Title, Desc, imageSrc, Link} = req.body;
+
+
+  db.all(`INSERT INTO 'class' (Title, Description, imageSrc, Link) VALUES ('${Title}', '${Desc}', '${imageSrc}', '${Link}')`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error when adding user to class' });
+    } else {
+      res.status(200).json({ message: 'User added to class successfully' });
+    }
+  });
 });
 
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
@@ -97,19 +174,9 @@ app.post('/api/joingroup', (req, res) => {
   });
 });
 
-// API route to add a class to the database, with a POST request containing the class name.
-app.post('/api/addclass', (req, res) => {
-  const className = req.body.className;
-  
-  db.all(`CREATE TABLE ${className} (Image TEXT, Heading TEXT, Text TEXT, currentNumPeople INTEGER, totalPeopleNeeded INTEGER)`, (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal Server Error' });
-      return;
-    }
-    res.json(rows);
-  });
-});
+
+
+
 
 
 app.listen(port, () => {
