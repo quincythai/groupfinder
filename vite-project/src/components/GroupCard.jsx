@@ -65,7 +65,7 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         heading={heading}
         text={text}
         className={className}
-        isFull={currentNumPeople === totalPeopleNeeded ? true: false} />
+        isFull={true} />
       </CardFooter>
     </Card>
     ) :
@@ -103,7 +103,7 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         heading={heading}
         text={text}
         className={className}
-        isFull={currentNumPeople === totalPeopleNeeded ? true: false} />
+        isFull={currentNumPeople === totalPeopleNeeded ? true : false} />
       </CardFooter>
     </Card>
     )
