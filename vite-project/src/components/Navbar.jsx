@@ -29,7 +29,7 @@ const Navbar = () => {
           </Heading>
         </Link>
         <Flex gap='20px' justifyContent='center' alignItems='center'>
-          <Link as={RouterLink} to='/'>
+          <Link as={RouterLink} to='/courses'>
             <HandleLoginButtion/>
           </Link>
         </Flex>

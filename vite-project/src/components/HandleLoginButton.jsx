@@ -3,7 +3,7 @@ import React from "react";
 import {Button} from '@chakra-ui/react'
 
 const HandleLoginButtion = () => {
-    const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
   const { logout } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
 
