@@ -3,8 +3,10 @@ import GroupCard from '../components/GroupCard'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SampleGroupCard from '../components/SampleGroupCard'
-import Filter from '../components/Sort'
+
 import { useAuth0 } from '@auth0/auth0-react'
+import Sort from '../components/Sort'
+
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
@@ -115,7 +117,7 @@ const CoursePage = () => {
   return (
     <>
     { /* Should run a function that gets data based on the filter. */ }
-    <Filter
+    <Sort
     onSortAvail={
       () => handleFilterData('Availability')
     }

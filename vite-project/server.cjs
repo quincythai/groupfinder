@@ -153,6 +153,7 @@ app.post('/api/updategroupcount', (req, res) => {
   });
 });
 
+// API Route to get the users in a group, with a GET request containing the class name, and the group Heading.
 app.get('/api/getusersingroup', (req, res) => {
 
   const className = req.query.className || req.body.className;
