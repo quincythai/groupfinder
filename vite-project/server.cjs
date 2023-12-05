@@ -168,6 +168,23 @@ app.get('/api/getusersingroup', (req, res) => {
   });
 });
 
+// API route to get the current group of a user, with a GET request containing the username and the class name.
+app.get('/api/getcurrentgroup', (req, res) => {
+  const username = req.query.username || req.body.username;
+  const className = req.query.className || req.body.className;
+
+  console.log(username, className)
+  
+  db.all(`SELECT heading FROM user_groups WHERE user = ? AND className = ?`, [username, className], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when getting user's group in class ${className}` });
+      return;
+    }
+    res.json(rows);
+  });
+});
+
 // API route to add a class to the database, with a POST request containing the class name.
 app.post('/api/addclass', (req, res) => {
   const className = req.query.className || req.body.className;

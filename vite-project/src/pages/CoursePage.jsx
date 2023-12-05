@@ -4,9 +4,12 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import SampleGroupCard from '../components/SampleGroupCard'
 import Filter from '../components/Sort'
+import { useAuth0 } from '@auth0/auth0-react'
 // import DrawerExample from '../components/DrawerExample'
 
 const CoursePage = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+
   const className = 'CS61C'
   // Get course data from backend.
 
@@ -48,7 +51,10 @@ const CoursePage = () => {
     //   numPeopleNeeded: '0/111',
     // },
   ])
+
   const [sortBy, setSortBy] = useState('dateCreated')
+
+  const [currentGroup, setCurrentGroup] = useState('null')
   // Makes an api request to the backend to get all of the data from the course.
   const getData = async () => {
     const response = await axios.get(`http://localhost:5001/api/courses`, {
@@ -76,10 +82,35 @@ const CoursePage = () => {
       setSortBy(selectedSort)
     }
   }
+
+  const getCurrentGroup = async () => {
+    try {
+      console.log("username is: ", user.name)
+      const response = await axios.get(`http://localhost:5001/api/getcurrentgroup`, {
+        params: {
+          className: className,
+          username: user.name,
+        },
+      })
+      setCurrentGroup(response.data[0]['heading'])
+      console.log(currentGroup)
+    } catch (error) {
+      console.log('Error getting current group: ', error)
+  }
+  }
   // Fetches the data from the backend as soon as the component loads.
   useEffect(() => {
-    getData()
-  }, [])
+    if (isAuthenticated) {
+      console.log("isAuthenticated is: ", isAuthenticated)
+      getData().then(() => {
+        getCurrentGroup().then(() => {
+          courseData.map((project) => {
+            project.Heading == currentGroup ? console.log("Current group is: ", project.Heading) : console.log("Not current group")
+          })
+        })
+      })
+    }
+  }, [user, isAuthenticated])
 
   return (
     <>
@@ -105,17 +136,30 @@ const CoursePage = () => {
 
       <Flex flexWrap='wrap' gap='20px'>
         <SampleGroupCard />
-        {courseData.map((project) => (
+        {courseData.map((project) => currentGroup && project.Heading == currentGroup ? (
           <GroupCard
+            isCurrent={true}
             className={className}
-            key={project.heading}
+            key={project.Heading}
             image={project.Image}
             heading={project.Heading}
             text={project.Text}
             currentNumPeople={project.currentNumPeople}
             totalPeopleNeeded={project.totalPeopleNeeded}
           />
-        ))}
+        ) : (
+          <GroupCard
+            isCurrent={false}
+            className={className}
+            key={project.Heading}
+            image={project.Image}
+            heading={project.Heading}
+            text={project.Text}
+            currentNumPeople={project.currentNumPeople}
+            totalPeopleNeeded={project.totalPeopleNeeded}
+          />
+        )
+        )}
       </Flex>
     </Flex>
 

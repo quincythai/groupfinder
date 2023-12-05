@@ -28,11 +28,10 @@ const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) =
   // console.log(isFull)
   // Function that handles joining a group, also adds the user to the user_groups table in the backend.
   const joinGroup = () => {
-    const username = user.name
     const params = {
       className,
       heading,
-      username,
+      username: user.name,
     }
     console.log(params)
     const endpoint = 'http://localhost:5001/api/joingroup'
@@ -66,7 +65,9 @@ const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) =
 
   const hasThisUserAlreadyJoined = () => {
     const params = {
-      
+      className,
+      heading,
+      username: user.name,
     }
     const endpoint = 'http://localhost:5001/api/hasuseralreadyjoined'
     axios.get(endpoint, params)
