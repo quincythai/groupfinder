@@ -27,6 +27,13 @@ function parseSortBy(sortBy) {
       return 'ID';
   }
 }
+db.all(`CREATE TABLE IF NOT EXISTS user_groups (user TEXT, className TEXT, heading TEXT)`, (err, rows) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+});
+
 // API route to fetch data from our database, with a GET request containing the class name.
 app.get('/api/courses', (req, res) => {
   // Example: Fetch data from SQLite database
@@ -81,8 +88,18 @@ app.post('/api/addgroup', (req, res) => {
 app.post('/api/joingroup', (req, res) => {
   const className = req.body.className;
   const heading = req.body.heading;
+  const user = req.body.user;
+
   console.log("Joining group with className " + className + " and heading " + heading);
 
+  db.all(`INSERT INTO user_groups (user, className, heading) VALUES ("${user}", "${className}", "${heading}")`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
+      return;
+    }
+  });
+  
   db.all(`UPDATE ${className} SET currentNumPeople = currentNumPeople + 1 WHERE Heading = ?`, [heading], (err, rows) => {
     if (err) {
       console.error(err);
@@ -90,6 +107,20 @@ app.post('/api/joingroup', (req, res) => {
       return;
     }
     console.log("Success joining group with className " + className + " and heading " + heading);
+    res.json(rows);
+  });
+});
+
+app.get('/api/getusersingroup', (req, res) => {
+  const className = req.query.className || req.body.className;
+  const heading = req.query.heading || req.body.heading;
+
+  db.all(`SELECT user FROM user_groups WHERE className = ? AND heading = ?`, [className, heading], (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: `Error when getting users in group with Heading ${heading} in class ${className}` });
+      return;
+    }
     res.json(rows);
   });
 });

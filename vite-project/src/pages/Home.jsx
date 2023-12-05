@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Home = () => {
   const { loginWithRedirect } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
+  console.log(user.name)
   return (
     <Box
       textAlign='center'
