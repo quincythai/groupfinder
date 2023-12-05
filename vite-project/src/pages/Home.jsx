@@ -4,10 +4,11 @@ import { Image, Link } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
 
+//TODO: Users should only be able to join one group per class
+
 const Home = () => {
   const { loginWithRedirect } = useAuth0();
   const { user, isAuthenticated, isLoading } = useAuth0();
-  console.log(user.name)
   return (
     <Box
       textAlign='center'

@@ -20,14 +20,19 @@ import {
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [members, setMembers] = useState([])
   // console.log(isFull)
+  // Function that handles joining a group, also adds the user to the user_groups table in the backend.
   const joinGroup = () => {
+    const username = user.name
     const params = {
       className,
       heading,
+      username,
     }
     console.log(params)
     const endpoint = 'http://localhost:5001/api/joingroup'
@@ -40,12 +45,30 @@ const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) =
     })
     window.location.reload()
   }
+
   const getGroupInfo = () => {
     const params = {
       className,
       heading,
     }
     const endpoint = 'http://localhost:5001/api/getusersingroup'
+    axios.get(endpoint, { params } )
+    .then((response) => {
+      setMembers(response.data.map(userObject => userObject.user))
+    })
+    .catch((error) => {
+      console.log('Error retrieving group info: ', error)
+    })
+  }
+  useEffect(() => {
+    getGroupInfo()
+  }, [isOpen]);
+
+  const hasThisUserAlreadyJoined = () => {
+    const params = {
+      
+    }
+    const endpoint = 'http://localhost:5001/api/hasuseralreadyjoined'
     axios.get(endpoint, params)
     .then((response) => {
       console.log(response.data)
@@ -54,9 +77,6 @@ const GroupCardModal = ({ isOpen, onClose, heading, text, className, isFull }) =
       console.log('Error retrieving group info: ', error)
     })
   }
-  useEffect(() => {
-    getGroupInfo()
-  }, []);
 
   return ( members.length != 0 ? 
     <>
