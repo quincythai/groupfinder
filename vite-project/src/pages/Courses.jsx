@@ -66,6 +66,7 @@ const Courses = () => {
           });
           setClassNames(response.data.map((jsonObject) =>jsonObject.className));
           console.log(response.data.map((jsonObject) =>jsonObject.className));
+          console.log(response.data)
         }
       } catch (error) {
         console.error('Error fetching data:', error);

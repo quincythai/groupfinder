@@ -68,12 +68,13 @@ app.get('/api/user-class', (req, res) => {
   const user = req.query.user || req.query.body;
   console.log(user)
   db.all(
-    `SELECT className FROM 'user-class' GROUP BY className HAVING user = '${user}'`, (err, rows) => {
+    `SELECT className FROM 'user-class' WHERE user = '${user}' GROUP BY className `, (err, rows) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: 'Error when fetching data from user-class'});
         return;
       }
+      // console.log(rows);
       res.json(rows);
     }
   );
