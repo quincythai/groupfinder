@@ -1,8 +1,20 @@
-# React + Vite
+# GroupFinder
+Groupfinder is a website for finding groups!
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Installation
+After pulling, make sure you grab the necessay node modules. The easiest way to do this is with
+```bash
+npm install
+```
+assuming that you have npm.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Usage
+You can run the web app by navigating to the vite-project folder using
+```bash
+cd vite-project
+```
+and then running
+```bash
+npm run dev
+```
+which will start the backend at localhost:5001 and the frontend at localhost:5173.
