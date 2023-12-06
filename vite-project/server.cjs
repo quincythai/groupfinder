@@ -64,6 +64,70 @@ app.get('/api/courses', (req, res) => {
   }
 });
 
+app.get('/api/user-class', (req, res) => {
+  const user = req.query.user || req.query.body;
+  console.log(user)
+  db.all(
+    `SELECT className FROM 'user-class' GROUP BY className HAVING user = '${user}'`, (err, rows) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error when fetching data from user-class'});
+        return;
+      }
+      res.json(rows);
+    }
+  );
+});
+
+
+
+app.get('/api/classDesc', (req,res)=>{
+  const className = req.query.className || req.query.body;
+  console.log(className);
+  db.all(`SELECT * From class WHERE '${className}' = Title`, (err, rows) =>{
+    if(err){
+      console.error(err);
+      res.status(500).json({error:'Error when fetching data from class'});
+      return;
+    }
+    res.json(rows);
+  })
+});
+
+
+//api route to add a user to a class
+app.post('/api/addUserToClass', (req, res)=>{
+  // const user = req.query.user || req.query.body.user;
+  const { username, classCode } = req.body;
+
+
+  db.all(`INSERT INTO 'user-class' (user, className) VALUES ('${username}', '${classCode}')`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error when adding user to class' });
+    } else {
+      res.status(200).json({ message: 'User added to class successfully' });
+    }
+  });
+});
+
+app.post('/api/addNewClass', (req, res)=>{
+  // const user = req.query.user || req.query.body.user;
+  const {Title, Desc, imageSrc, Link} = req.body;
+
+
+  db.all(`INSERT INTO 'class' (Title, Description, imageSrc, Link) VALUES ('${Title}', '${Desc}', '${imageSrc}', '${Link}')`, (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error when adding user to class' });
+    } else {
+      res.status(200).json({ message: 'User added to class successfully' });
+    }
+  });
+});
+
+
+
 // API route to add rows to our database, with a POST request containing Image, Heading, Text,
 // currentNumPeople, and totalPeopleNeeded.
 app.post('/api/addgroup', (req, res) => {
