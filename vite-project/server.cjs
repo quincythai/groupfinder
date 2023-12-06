@@ -149,78 +149,64 @@ app.post('/api/addgroup', (req, res) => {
   });
 });
 
-// API route to add a person to the card, with a POST request containing the class name, and the group Heading.
-// Checks if the user is already in a group in the class, and if so, changes the group they are in.
-app.post('/api/joingroup', (req, res) => {
+// Function to perform an asynchronous database query
+function performAsyncQuery(query, params) {
+  return new Promise((resolve, reject) => {
+      db.all(query, params, (err, rows) => {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(rows);
+          }
+      });
+  });
+}
+
+app.post('/api/joingroup', async (req, res) => {
   const className = req.body.className;
   const heading = req.body.heading;
   const username = req.body.user || req.body.username;
 
   console.log("Joining group with className " + className + " and heading " + heading + " as user " + username);
 
-  db.all(` SELECT * FROM user_groups WHERE className = ? AND user = ?`, [className, username], (err, rows) => {
-    if (err) {
-        console.error(err);
-        // Close the database connection
-        return;
-    }
+  try {
+      // Check if the user is already in a group
+      const rows = await performAsyncQuery(`SELECT * FROM user_groups WHERE className = ? AND user = ?`, [className, username]);
 
-    if (rows.length > 0) {
-        // If rows exist, perform an UPDATE
-        const updateQuery = `
-            UPDATE user_groups
-            SET heading = ?
-            WHERE className = ? AND user = ?
-        `;
-        db.run(updateQuery, [heading, className, username], (err) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log(`Row updated successfully`);
-            }
-        });
-    } else {
-        // If no rows exist, perform an INSERT
-        const insertQuery = `
-            INSERT INTO user_groups (className, user, heading)
-            VALUES (?, ?, ?)
-        `;
-        db.run(insertQuery, [className, username, heading], (err) => {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log(`Row inserted successfully`);
-            }
-        });
-    }
+      if (rows.length > 0) {
+          // If the user is in a group, perform an UPDATE
+          await performAsyncQuery(
+              `UPDATE user_groups SET heading = ? WHERE className = ? AND user = ?`,
+              [heading, className, username]
+          );
+      } else {
+          // If the user is not in a group, perform an INSERT
+          await performAsyncQuery(
+              `INSERT INTO user_groups (className, user, heading) VALUES (?, ?, ?)`,
+              [className, username, heading]
+          );
+      }
 
-  });
-  // Database query to count the number of people in the group from user_groups, and set currentNumPeople to that count.
-  var currentNumInGroup;
-  db.all(`SELECT COUNT(*) FROM user_groups WHERE className = ? AND heading = ?`, [className, heading], (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
-      return;
-    }
-    currentNumInGroup = rows[0]['COUNT(*)'];
-  });
+      // Count the number of people in the group
+      const countRows = await performAsyncQuery(`SELECT COUNT(*) FROM user_groups WHERE className = ? AND heading = ?`, [className, heading]);
+      const currentNumInGroup = countRows[0]['COUNT(*)'];
 
-  if (currentNumInGroup == undefined) {
-    res.status(500).json({ error: `Error when counting number of people in group` });
-    return;
+      if (currentNumInGroup == undefined) {
+          res.status(500).json({ error: `Error when counting the number of people in the group` });
+          return;
+      }
+
+      // Update the current number of people in the group
+      await performAsyncQuery(`UPDATE ${className} SET currentNumPeople = ? WHERE Heading = ?`, [currentNumInGroup, heading]);
+
+      console.log(`Success joining group with className ${className} and heading ${heading}`);
+      res.json({ success: true });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: `Error when joining the group` });
   }
-  db.all(`UPDATE ${className} SET currentNumPeople = ? WHERE Heading = ?`, [currentNumInGroup, heading], (err, rows) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ error: `Error when adding person to group with Heading ${heading} in class ${className}` });
-      return;
-    }
-    console.log("Success joining group with className " + className + " and heading " + heading);
-    res.json(rows);
-  });
-
 });
+
 //For debugging / testing purposes, updates the count of a given group to the number of entries for that group in the user_groups table.
 app.post('/api/updategroupcount', (req, res) => {
   const className = req.body.className;
