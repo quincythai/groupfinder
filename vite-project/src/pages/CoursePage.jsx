@@ -94,6 +94,7 @@ const CoursePage = () => {
           username: user.name,
         },
       })
+      console.log(response.data[0]['heading'])
       setCurrentGroup(response.data[0]['heading'])
       console.log(currentGroup)
     } catch (error) {
