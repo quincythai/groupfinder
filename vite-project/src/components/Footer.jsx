@@ -16,15 +16,14 @@ const Footer = () => {
   return (
     <Box
       display='flex'
-      justifyContent='center'
+      justifyContent='flex-start'
       alignItems='flex-start'
       padding='20px'
-      paddingTop='50px'
       backgroundColor={primaryColor}
       width='100%'
       bottom='0'
       left='0'
-      height='200px'
+      height='100%'
       gap='100px'
     >
       <FooterBox title='Support' links={supportLinks}></FooterBox>

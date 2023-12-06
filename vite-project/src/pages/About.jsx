@@ -14,13 +14,13 @@ const About = () => {
     {
       name: 'Quincy Thai',
       links: '...',
-      text: 'Founder of GroupFinder, Full Stack Developer, ...',
+      text: 'Founder, Project Lead, Frontend Developer',
       imageSrc: '/quincy.JPG',
     },
     {
       name: 'JQ and Diego',
       links: '...',
-      text: 'Developer',
+      text: 'Backend Developers',
       imageSrc: 'jq_and_diego.jpg',
     },
   ]
