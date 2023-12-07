@@ -14,7 +14,7 @@ const About = () => {
     {
       name: 'Quincy Thai',
       links: '...',
-      text: 'Founder, Project Lead, Frontend Developer',
+      text: 'Frontend Developer',
       imageSrc: '/quincy.JPG',
     },
     {
