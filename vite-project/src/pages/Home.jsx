@@ -2,17 +2,17 @@ import { Box, Button, Heading, Text } from '@chakra-ui/react'
 import Logo from '../components/Logo'
 import { Image, Link } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react'
 
 //TODO: Users should only be able to join one group per class
 
 const Home = () => {
-  const { loginWithRedirect } = useAuth0();
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { loginWithRedirect } = useAuth0()
+  const { user, isAuthenticated, isLoading } = useAuth0()
   return (
     <Box
       textAlign='center'
-      h='60vh'
+      h='84vh'
       display='flex'
       flexDirection='column'
       justifyContent='center'
@@ -33,7 +33,11 @@ const Home = () => {
               width='60%'
               mt='8'
               alignSelf='center'
-              onClick={isAuthenticated ? () => console.log('Redirecting') : () => loginWithRedirect()}
+              onClick={
+                isAuthenticated
+                  ? () => console.log('Redirecting')
+                  : () => loginWithRedirect()
+              }
             >
               Find a Group
             </Button>
