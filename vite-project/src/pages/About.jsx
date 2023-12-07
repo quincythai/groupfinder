@@ -23,6 +23,18 @@ const About = () => {
       text: 'Backend Developers',
       imageSrc: 'jq_and_diego.jpg',
     },
+    {
+      name: 'Sebi',
+      links: '...',
+      text: 'Intern',
+      imageSrc: 'sebi.png',
+    },
+    {
+      name: 'Matt',
+      links: '...',
+      text: 'Intern',
+      imageSrc: 'matt.jpeg',
+    },
   ]
 
   return (

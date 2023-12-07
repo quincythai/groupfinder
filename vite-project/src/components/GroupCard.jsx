@@ -17,21 +17,28 @@ import { useDisclosure } from '@chakra-ui/react'
 // Figure out how to truncate descriptions that are too long
 // Center image
 // Have all same image sizes
-const defaultImage = 'quincy.JPG'
+const defaultImage = 'sample-group-icon.svg'
 
-const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeople, totalPeopleNeeded }) => {
+const GroupCard = ({
+  isCurrent,
+  className,
+  image,
+  heading,
+  text,
+  currentNumPeople,
+  totalPeopleNeeded,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  if (image == "null" || !image) {
+  if (image == 'null' || !image) {
     // console.log("image is null")
     image = defaultImage
   }
   if (isCurrent) {
-    console.log(isCurrent + " The current group is " + heading)
+    console.log(isCurrent + ' The current group is ' + heading)
   }
   // console.log(image)
   // console.log(text)
-  return (
-    isCurrent ? (
+  return isCurrent ? (
     <Card minW='xs' maxW='xs' bg='lightgreen'>
       <CardBody>
         <Image
@@ -43,9 +50,9 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         <Stack mt='6' spacing='3'>
           <Heading size='md'>{heading}</Heading>
           {/* Truncate text if it is too long, otherwise display the whole text */}
-          <Text>{
-            text.length > 100 ? text.substring(0, 100) + "..." : text
-            }</Text>
+          <Text>
+            {text.length > 100 ? text.substring(0, 100) + '...' : text}
+          </Text>
         </Stack>
       </CardBody>
       <Divider />
@@ -61,16 +68,18 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         <Button variant='solid' colorScheme='blue' onClick={onOpen}>
           View Info
         </Button>
-        <GroupCardModal isOpen={isOpen} onClose={onClose}
-        heading={heading}
-        text={text}
-        className={className}
-        isFull={true} />
+        <GroupCardModal
+          isOpen={isOpen}
+          onClose={onClose}
+          heading={heading}
+          text={text}
+          className={className}
+          isFull={true}
+        />
       </CardFooter>
     </Card>
-    ) :
-    (
-      <Card minW='xs' maxW='xs'>
+  ) : (
+    <Card minW='xs' maxW='xs'>
       <CardBody>
         <Image
           src={image}
@@ -81,9 +90,9 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         <Stack mt='6' spacing='3'>
           <Heading size='md'>{heading}</Heading>
           {/* Truncate text if it is too long, otherwise display the whole text */}
-          <Text>{
-            text.length > 100 ? text.substring(0, 100) + "..." : text
-            }</Text>
+          <Text>
+            {text.length > 100 ? text.substring(0, 100) + '...' : text}
+          </Text>
         </Stack>
       </CardBody>
       <Divider />
@@ -99,14 +108,16 @@ const GroupCard = ({ isCurrent, className, image, heading, text, currentNumPeopl
         <Button variant='solid' colorScheme='blue' onClick={onOpen}>
           View Info
         </Button>
-        <GroupCardModal isOpen={isOpen} onClose={onClose}
-        heading={heading}
-        text={text}
-        className={className}
-        isFull={currentNumPeople === totalPeopleNeeded ? true : false} />
+        <GroupCardModal
+          isOpen={isOpen}
+          onClose={onClose}
+          heading={heading}
+          text={text}
+          className={className}
+          isFull={currentNumPeople === totalPeopleNeeded ? true : false}
+        />
       </CardFooter>
     </Card>
-    )
   )
 }
 
