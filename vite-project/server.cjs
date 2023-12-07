@@ -172,9 +172,21 @@ app.post('/api/joingroup', async (req, res) => {
   try {
       // Check if the user is already in a group
       const rows = await performAsyncQuery(`SELECT * FROM user_groups WHERE className = ? AND user = ?`, [className, username]);
-
       if (rows.length > 0) {
           // If the user is in a group, perform an UPDATE
+          const prevHeading = rows[0].heading;
+          // Count the number of people in the group
+          const countPrevRows = await performAsyncQuery(`SELECT COUNT(*) FROM user_groups WHERE className = ? AND heading = ?`, [className, prevHeading]);
+          const currentNumInPrevGroup = countPrevRows[0]['COUNT(*)'] - 1;
+
+          if (currentNumInPrevGroup == undefined) {
+              res.status(500).json({ error: `Error when counting the number of people in the group` });
+              return;
+          }
+          console.log("Current number of people in previous group: " + currentNumInPrevGroup)
+          // Update the current number of people in the group
+          await performAsyncQuery(`UPDATE ${className} SET currentNumPeople = ? WHERE Heading = ?`, [currentNumInPrevGroup, prevHeading]);
+
           await performAsyncQuery(
               `UPDATE user_groups SET heading = ? WHERE className = ? AND user = ?`,
               [heading, className, username]
